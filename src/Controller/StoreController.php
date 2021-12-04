@@ -10,7 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class StoreController extends AbstractController
 {
     /**
-     * @Route("/store/product/{id}/details/{slug}", name="store_show_product", requirements={"id"="\d+"})
+     * @Route("/store/product/{id}/details/{slug}", name="store_show_product", requirements={"id"="\d+"}, methods={"GET"})
      */
     public function homepage(int $id, string $slug, Request $request):Response
     {

@@ -19,7 +19,7 @@ class MainController extends AbstractController
     }
 
     /**
-     * @Route("/presentation", name="main_presentation")
+     * @Route("/presentation", name="main_presentation", methods={"GET"})
      */
     public function presentation():Response
     {
@@ -29,7 +29,7 @@ class MainController extends AbstractController
     }
 
     /**
-     * @Route("/contact", name="main_contact")
+     * @Route("/contact", name="main_contact", methods={"GET"})
      */
     public function contact():Response
     {
