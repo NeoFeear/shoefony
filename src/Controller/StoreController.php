@@ -18,7 +18,8 @@ class StoreController extends AbstractController
             'controller_name' => 'StoreController',
             'id' => $id,
             'slug' => $slug,
-            'ip' => $request->getClientIp()
+            'ip' => $request->getClientIp(),
+            'url' => $request->getUri()
         ]);
     }
 }
