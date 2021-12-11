@@ -1,23 +1,26 @@
 <!DOCTYPE html>
-<html>
+<html lang="{{ app.request.locale }}">
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}{{ app.request.get('_route') }}{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
-        {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
-        {% block stylesheets %}
-            <style>
-                .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-                .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-            </style>
-            {{ encore_entry_link_tags('app') }}
-        {% endblock %}
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="description" content="Bienvenue sur mon site vitrine développé à l'aide du framework de développement web Symfony">
+        <meta name="author" content="Florian MARTIN">
 
-        {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
+        <title>{% block title %}Shoefony{% endblock %}</title>
+
+        {% block stylesheets %}
+            <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
+            <link href="{{ asset('css/heroic-features.css') }}" rel="stylesheet">
         {% endblock %}
     </head>
+
     <body>
         {% block body %}{% endblock %}
+
+        {% block javascripts %}
+            <script src="{{ asset('js/jquery.js') }}"></script>
+            <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+        {% endblock %}
     </body>
 </html>
