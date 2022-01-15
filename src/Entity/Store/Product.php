@@ -2,6 +2,7 @@
 
 namespace App\Entity\Store;
 
+use App\Repository\Store\ProductRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
