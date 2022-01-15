@@ -11,7 +11,7 @@ class StoreController extends AbstractController
     /**
      * @Route("/store/product/list", name="store_list_product", methods={"GET"})
      */
-    public function productList():Response
+    public function productList(): Response
     {
         return $this->render('store/product_list.html.twig', [
             'controller_name' => 'StoreController'
