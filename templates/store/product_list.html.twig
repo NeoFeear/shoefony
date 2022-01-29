@@ -24,11 +24,12 @@
 						<div class="thumbnail">
 							<img src="{{ asset('img/products/shoe-' ~ product.id ~ '.jpg') }}" class="img-fluid img-responsive" alt="Nom du produit">
 							<div class="caption">
+								<h5 class="text-primary">{{ product.brand.name }}</h5>
 								<h3>{{ product.name | capitalize }}</h3>
 								<p>{{ product.description }}</p>
 								<p>
-									<span class="badge">{{ product.price }}</span>
-									<a href="{{ path('store_detail_product', {'id': product.id, 'slug': 'name'}) }}" class="btn btn-default">Voir la fiche</a>
+									<span class="badge">{{ product.price|format_currency('EUR') }}</span>
+									<a href="{{ path('store_detail_product', {'id': product.id, 'slug': product.slug}) }}" class="btn btn-default">Voir la fiche</a>
 								</p>
 							</div>
 						</div>

@@ -20,8 +20,9 @@ class ProductRepository extends ServiceEntityRepository
     }
 
     // /**
-    //  * @return Product[] Returns an array of Product objects
-    //  */
+    // * @return Product[] Returns an array of Product objects
+    // */
+
     /*
     public function findByExampleField($value)
     {
@@ -34,9 +35,7 @@ class ProductRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
-    */
 
-    /*
     public function findOneBySomeField($value): ?Product
     {
         return $this->createQueryBuilder('p')

@@ -26,7 +26,7 @@ class StoreController extends AbstractController
 
         return $this->render('store/product_list.html.twig', [
             'controller_name' => 'StoreController',
-            'products' => $products,
+            'products' => $products
         ]);
     }
 
@@ -35,9 +35,15 @@ class StoreController extends AbstractController
      */
     public function productDetail(int $id, string $slug):Response
     {
+        $product = $this->em->getRepository(Product::class)->find($id);
+
+        if (!$product) {
+            throw $this->createNotFoundException('Product not found');
+        }
+
         return $this->render('store/product_detail.html.twig', [
             'controller_name' => 'StoreController',
-            'id' => $id,
+            'product' => $product,
             'slug' => $slug
         ]);
     }
