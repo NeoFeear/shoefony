@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Contact;
+use App\Entity\Store\Product;
 use App\Form\ContactType;
 use App\Mailer\ContactMailer;
+use App\Repository\Store\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,13 +15,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class MainController extends AbstractController
 {
-    private ContactMailer $mailer;
-    private $em;
 
-    public function __construct(EntityManagerInterface $em, ContactMailer $mailer)
-    {
-        $this->em = $em;
-        $this->mailer = $mailer;
+    public function __construct(
+        private EntityManagerInterface $em,
+        private ContactMailer $mailer,
+        private ProductRepository $productRepository,
+    ) {
+        
     }
 
     /**
@@ -27,8 +29,13 @@ class MainController extends AbstractController
      */
     public function homepage(): Response
     {
+        $lastProducts = $this->productRepository->findLastProducts(4);
+        $mostCommentedProducts = $this->productRepository->findMostCommentedProducts(4);
+
         return $this->render('main/index.html.twig', [
             'controller_name' => 'MainController',
+            'last_products' => $lastProducts,
+            'most_commented_products' => $mostCommentedProducts,
         ]);
     }
 

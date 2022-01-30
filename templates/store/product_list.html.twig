@@ -22,7 +22,7 @@
 				{% for product in products %}
 					<div class="col-md-4 col-sm-6 hero-feature">
 						<div class="thumbnail">
-							<img src="{{ asset('img/products/shoe-' ~ product.id ~ '.jpg') }}" class="img-fluid img-responsive" alt="Nom du produit">
+							<img src="{{ asset('img/products/shoe-' ~ product.id ~ '.jpg') }}" class="img-fluid img-responsive" alt="{{ product.name }}">
 							<div class="caption">
 								<h5 class="text-primary">{{ product.brand.name }}</h5>
 								<h3>{{ product.name | capitalize }}</h3>

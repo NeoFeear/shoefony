@@ -35,16 +35,16 @@
     </div>
 
     <div class="row text-center">
-        {% for i in 1..4 %}
+        {% for last in last_products %}
             <div class="col-md-3 col-sm-6 hero-feature">
                 <div class="thumbnail">
-                    <img src="{{ asset('img/products/shoe-' ~ i ~'.jpg') }}" alt="Nom du produit">
+                    <img src="{{ asset('img/products/shoe-' ~ last.id ~'.jpg') }}" alt="{{ last.name }}">
                     <div class="caption">
-                        <h3>Nom du produit</h3>
-                        <p>Une description courte du produit sera affichée à cet endroit.</p>
+                        <h3>{{ last.name }}</h3>
+                        <p>{{ last.description }}</p>
                         <p>
-                            <span class="badge">120,00 €</span>
-                            <a href="{{ path('store_detail_product', {'id': i, 'slug': 'name'}) }}" class="btn btn-default">Voir la fiche</a>
+                            <span class="badge">{{ last.price|format_currency('EUR') }}</span>
+                            <a href="{{ path('store_detail_product', {'id': last.id, 'slug': last.slug}) }}" class="btn btn-default">Voir la fiche</a>
                         </p>
                     </div>
                 </div>
@@ -61,16 +61,16 @@
     </div>
 
     <div class="row text-center">
-        {% for i in 5..8 %}
+        {% for most_commented in most_commented_products %}
             <div class="col-md-3 col-sm-6 hero-feature">
                 <div class="thumbnail">
-                    <img src="{{ asset('img/products/shoe-' ~ i ~ '.jpg') }}" alt="Nom du produit">
+                    <img src="{{ asset('img/products/shoe-' ~ most_commented.id ~'.jpg') }}" alt="{{ most_commented.name }}">
                     <div class="caption">
-                        <h3>Nom du produit</h3>
-                        <p>Une description courte du produit sera affichée à cet endroit.</p>
+                        <h3>{{ most_commented.name }}</h3>
+                        <p>{{ most_commented.description }}</p>
                         <p>
-                            <span class="badge">120,00 €</span>
-                            <a href="{{ path('store_detail_product', {'id': i, 'slug': 'name'}) }}" class="btn btn-default">Voir la fiche</a>
+                            <span class="badge">{{ most_commented.price|format_currency('EUR') }}</span>
+                            <a href="{{ path('store_detail_product', {'id': most_commented.id, 'slug': most_commented.slug}) }}" class="btn btn-default">Voir la fiche</a>
                         </p>
                     </div>
                 </div>

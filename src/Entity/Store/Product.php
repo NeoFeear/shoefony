@@ -65,15 +65,21 @@ class Product
     private $brand;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Color::class, mappedBy="proucts")
+     * @ORM\ManyToMany(targetEntity=Color::class, mappedBy="products")
      * @ORM\JoinTable(name="sto_color")
      */
     private $colors;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="product", orphanRemoval=true)
+     */
+    private $comments;
 
 
     public function __construct() {
         $this->createdAt = new \DateTime();
         $this->colors = new ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
 
     public function getId(): ?int {
@@ -170,6 +176,36 @@ class Product
     {
         if ($this->colors->removeElement($color)) {
             $color->removeProduct($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Comment[]
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(Comment $comment): self
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments[] = $comment;
+            $comment->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comment $comment): self
+    {
+        if ($this->comments->removeElement($comment)) {
+            // set the owning side to null (unless already changed)
+            if ($comment->getProduct() === $this) {
+                $comment->setProduct(null);
+            }
         }
 
         return $this;

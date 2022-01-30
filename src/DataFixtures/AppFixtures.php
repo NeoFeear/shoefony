@@ -4,6 +4,7 @@ namespace App\DataFixtures;
 
 use App\Entity\Store\Brand;
 use App\Entity\Store\Color;
+use App\Entity\Store\Comment;
 use App\Entity\Store\Image;
 use App\Entity\Store\Product;
 use Cocur\Slugify\Slugify;
@@ -76,7 +77,7 @@ class AppFixtures extends Fixture
                 ->setBrand($this->getRandomEntityReference(Brand::class, self::DATA_BRANDS))
                 ->setDescription('Voici la description de la chaussure ' . $i)
                 ->setDescriptionLongue('Voici la description suuuuper longue de la chaussure ' . $i)
-                ->setPrice(mt_rand(10, 100));
+                ->setPrice(mt_rand(80, 400));
             $product->setImage($this->createImage($i, $product->getName()));
             $product->setSlug($slugify->slugify($product->getName()));
 
@@ -86,6 +87,15 @@ class AppFixtures extends Fixture
                     $color = $this->getReference(Color::class . $j);
                     $product->addColor($color);
                 }
+            }
+
+            for ($k = 1; $k < random_int(2, 5); $k++) {
+                /** @var Comment $comment */
+                $comment = (new Comment())
+                    ->setProduct($product)
+                    ->setPseudo('Personne ' . $k)
+                    ->setMessage('Voici le message de la personne ' . $k . ' pour la chaussure ' . $i);
+                $this->manager->persist($comment);
             }
 
             $this->manager->persist($product);

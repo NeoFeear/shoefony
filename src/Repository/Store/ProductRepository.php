@@ -19,6 +19,28 @@ class ProductRepository extends ServiceEntityRepository
         parent::__construct($registry, Product::class);
     }
 
+    // fonction qui permet de récupérer les X derniers produits en fonction que sa date de création
+    public function findLastProducts(int $limit) {
+        return $this->createQueryBuilder('p')
+            ->orderBy('p.createdAt', 'DESC')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
+
+    // fonction qui permet de récupérer les X produits avec le plus de commentaires
+    public function findMostCommentedProducts(int $limit) {
+        return $this->createQueryBuilder('p')
+            ->addSelect('p')
+            ->addSelect('COUNT(c.id) AS HIDDEN comment_count')
+            ->leftJoin('p.comments', 'c')
+            ->groupBy('p')
+            ->orderBy('comment_count', 'DESC')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
+
     // /**
     // * @return Product[] Returns an array of Product objects
     // */
