@@ -89,7 +89,7 @@ class AppFixtures extends Fixture
                 }
             }
 
-            for ($k = 1; $k < random_int(2, 5); $k++) {
+            for ($k = 1; $k < random_int(5, 20); $k++) {
                 /** @var Comment $comment */
                 $comment = (new Comment())
                     ->setProduct($product)
@@ -99,6 +99,8 @@ class AppFixtures extends Fixture
             }
 
             $this->manager->persist($product);
+
+            sleep(1);
         }
     }
 

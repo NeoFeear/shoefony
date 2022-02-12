@@ -4,6 +4,7 @@ namespace App\Repository\Store;
 
 use App\Entity\Store\Product;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -19,26 +20,82 @@ class ProductRepository extends ServiceEntityRepository
         parent::__construct($registry, Product::class);
     }
 
-    // fonction qui permet de récupérer les X derniers produits en fonction que sa date de création
+    /**
+     * @return Product[]
+     */
+    public function findAllWithDetails(): array {
+        $qb = $this->createQueryBuilder('p');
+
+        $this->addJoinImage($qb);
+
+        return $qb->getQuery()->getResult();
+    }
+
+    public function findOneWithDetails(int $id): ?Product {
+        $qb = $this->createQueryBuilder('p')
+            ->where('p.id = :id')
+            ->setParameter('id', $id);
+
+        $this->addJoinImage($qb);
+        $this->addJoinComments($qb);
+
+        return $qb->getQuery()->getOneOrNullResult();
+    }
+
+    /**
+     * @return Product[]
+     */
     public function findLastProducts(int $limit) {
-        return $this->createQueryBuilder('p')
+        $qb = $this->createQueryBuilder('p')
             ->orderBy('p.createdAt', 'DESC')
-            ->setMaxResults($limit)
+            ->setMaxResults($limit);
+            
+        $this->addJoinImage($qb);
+            
+        return $qb->getQuery()->getResult();
+    }
+
+    /**
+     * @return Product[]
+     */
+    public function findMostCommentedProducts(int $limit) {
+        $qb = $this->createQueryBuilder('p')
+            ->leftJoin('p.comments', 'c')
+            ->groupBy('p')
+            ->orderBy('COUNT(c.id)', 'DESC')
+            ->setMaxResults($limit);
+        
+        $this->addJoinImage($qb);
+
+        return $qb->getQuery()->getResult();
+    }
+
+    /**
+     * @return Product[]
+     */
+    public function findByBrand(int $brandId) {
+        return $this->createQueryBuilder('p')
+            ->where('p.brand =' . $brandId)
             ->getQuery()
             ->getResult();
     }
 
-    // fonction qui permet de récupérer les X produits avec le plus de commentaires
-    public function findMostCommentedProducts(int $limit) {
-        return $this->createQueryBuilder('p')
-            ->addSelect('p')
-            ->addSelect('COUNT(c.id) AS HIDDEN comment_count')
-            ->leftJoin('p.comments', 'c')
-            ->groupBy('p')
-            ->orderBy('comment_count', 'DESC')
-            ->setMaxResults($limit)
-            ->getQuery()
-            ->getResult();
+    /**
+     * @return Product[]
+     */
+    private function addJoinImage(QueryBuilder $queryBuilder) {
+        return $queryBuilder
+            ->addSelect('i')
+            ->innerJoin('p.image', 'i');
+    }
+
+    /**
+     * @return Product[]
+     */
+    private function addJoinComments(QueryBuilder $queryBuilder) {
+        return $queryBuilder
+            ->addSelect('c')
+            ->leftJoin('p.comments', 'c');
     }
 
     // /**
